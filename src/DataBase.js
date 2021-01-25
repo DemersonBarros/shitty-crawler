@@ -1,5 +1,6 @@
 const fs = require('fs');
 const URLNotStoredError = require('./errors/database-errors/URLNotStoredError.js');
+const PathNotStoredError = require('./errors/database-errors/PathNotStoredError.js');
 const getURLFolderName = require('./utils/getURLFolderName.js');
 const getPathFolderName = require('./utils/getPathFolderName.js');
 
@@ -76,6 +77,31 @@ class DataBase {
     );
 
     return URLContent;
+  }
+
+  getPath(path, parentURL) {
+    if (typeof path !== 'string') {
+      throw new TypeError(`${path} is not a string`);
+    } else if (typeof parentURL !== 'string') {
+      throw new TypeError(`${parentURL} is not a string`);
+    }
+
+    const parentURLFolderName = getURLFolderName(parentURL);
+    const pathsCollected = fs.readdirSync(`${this.dir}/${parentURLFolderName}`);
+    const pathFolderName = getPathFolderName(path);
+
+    if (!pathsCollected.includes(pathFolderName)) {
+      throw new PathNotStoredError(`${path} was not stored`);
+    }
+
+    const pathPath = `${this.dir}/${parentURLFolderName}/${getPathFolderName(
+      path,
+    )}`;
+    const pathContent = JSON.parse(
+      fs.readFileSync(`${pathPath}/metadata.json`, 'utf8'),
+    );
+
+    return pathContent;
   }
 }
 
