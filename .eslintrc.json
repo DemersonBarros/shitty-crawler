@@ -10,6 +10,7 @@
   },
   "rules": {
     "no-restricted-syntax": "off",
-    "guard-for-in": "off"
+    "guard-for-in": "off",
+    "operator-linebreak": "off"
   }
 }
