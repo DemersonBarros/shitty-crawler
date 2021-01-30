@@ -11,7 +11,7 @@ function isURL(string) {
   }
 }
 
-function getURLsFromSiteResponseBody(siteURL = '', response = '') {
+function getURLsFromBody(siteURL = '', response = '') {
   if (typeof siteURL !== 'string') {
     throw new TypeError(`${siteURL} is not a string`);
   } else if (typeof response !== 'string') {
@@ -54,4 +54,4 @@ function getURLsFromSiteResponseBody(siteURL = '', response = '') {
   return links;
 }
 
-module.exports = getURLsFromSiteResponseBody;
+module.exports = getURLsFromBody;
