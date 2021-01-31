@@ -12,10 +12,11 @@ describe('getUserURLs.js', () => {
   test("should return the user's urls", () => {
     process.argv.push('www.example.com', 'https://www.notexample.com');
     const result = getUserURLs();
-    expect(result.size).toBe(3);
-    expect(result.has('https://www.notexample.com')).toBeTruthy();
-    expect(result.has('https://www.example.com')).toBeTruthy();
-    expect(result.has('http://www.example.com')).toBeTruthy();
+
+    expect(result.length).toBe(3);
+    expect(result.includes('https://www.notexample.com')).toBeTruthy();
+    expect(result.includes('https://www.example.com')).toBeTruthy();
+    expect(result.includes('http://www.example.com')).toBeTruthy();
   });
 
   test('should throw a NoURLError', () => {

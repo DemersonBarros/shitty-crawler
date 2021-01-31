@@ -17,19 +17,22 @@ function isURL(string) {
 function getUserURLS() {
   const processStdin = process.argv;
   processStdin.splice(0, 2);
-  const urls = new Set(processStdin);
-  if (urls.size === 0) {
+
+  const urls = [...processStdin];
+  if (urls.length === 0) {
     throw new NoURLError('Did not receive an URL.');
   }
-  processStdin.forEach((url) => {
+
+  urls.forEach((url, urlIndex) => {
     if (isValidDomain(url)) {
-      urls.delete(url);
-      urls.add(`http://${url}`);
-      urls.add(`https://${url}`);
+      urls.splice(urlIndex, 1);
+      urls.push(`http://${url}`);
+      urls.push(`https://${url}`);
     } else if (!isURL(url)) {
       throw new NotAValidURLError(`${url} is not a valid URL.`);
     }
   });
+
   return urls;
 }
 
