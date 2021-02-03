@@ -18,9 +18,14 @@ function getURLsFromBody(siteURL = '', response = '') {
     throw new TypeError(`${response} is not a string`);
   }
 
-  const parsedURL = siteURL.endsWith('/')
-    ? siteURL.slice(0, siteURL.length - 1)
-    : siteURL;
+  let url = siteURL;
+
+  if (url.includes('?')) {
+    url = siteURL.slice(0, url.indexOf('?'));
+  }
+
+  const parsedURL = url.endsWith('/') ? url.slice(0, url.length - 1) : url;
+
   const aElements = [
     ...response.matchAll(/<a .*?href=("|')(?<link>.*?)("|').*?>/gis),
   ];

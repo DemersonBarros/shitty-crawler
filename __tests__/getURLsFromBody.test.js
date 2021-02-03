@@ -38,6 +38,23 @@ describe('getURLsFromSiteResponseBody.js', () => {
     expect(result.includes('http://1.example.com/path')).toBeTruthy();
   });
 
+  test('should return the URLs on the site with a query', () => {
+    // prettier-ignore
+    const body = '<a anotherAtrribute="attributevalue" href=""><a/> <a href=\'/açldsfsalç\'><a/><a href=\'/açldsfsalç\'><a/><a href=\'http://2.example.com/path\'><a href=\'http://1.example.com/\'> <a href=\'http://1.example.com/path\'><a/>';
+    const result = getURLsFromBody(
+      'https://www.example.com/search?q=sss',
+      body,
+    );
+
+    expect(result.length).toBe(4);
+    expect(
+      result.includes('https://www.example.com/search/açldsfsalç'),
+    ).toBeTruthy();
+    expect(result.includes('http://2.example.com/path')).toBeTruthy();
+    expect(result.includes('http://1.example.com/')).toBeTruthy();
+    expect(result.includes('http://1.example.com/path')).toBeTruthy();
+  });
+
   test('should return an empty array', () => {
     const response = '<a href=""><a/> <a href="https://www.example.com"><a/>';
     const result = getURLsFromBody('https://www.example.com/', response);
