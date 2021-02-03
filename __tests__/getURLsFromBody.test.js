@@ -43,5 +43,7 @@ describe('getURLsFromSiteResponseBody.js', () => {
     const result = getURLsFromBody('https://www.example.com/', response);
 
     expect(result.length).toBe(0);
+    expect(getURLsFromBody('https://www.example.com/', '').length).toBe(0);
+    expect(getURLsFromBody('', '').length).toBe(0);
   });
 });
