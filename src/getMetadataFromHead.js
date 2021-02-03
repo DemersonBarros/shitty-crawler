@@ -5,6 +5,9 @@ function getMetadataFromHead(head) {
 
   const metadata = {};
   const metaElements = head.match(/<meta .*?>/gis);
+
+  if (!metaElements) return metadata;
+
   metaElements.forEach((metaElement) => {
     const httpEquivRegex = /http-equiv/gi;
 
