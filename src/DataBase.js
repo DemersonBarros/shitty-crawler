@@ -48,15 +48,25 @@ class DataBase {
 
     if (pathsCollected.includes(pathFolderName)) return;
 
-    const pathDir = fs.mkdirSync(`${this.dir}/${pathFolderName}`, {
-      recursive: true,
-    });
+    const parentURLFolderName = getURLFolderName(parentURL);
+    const pathDir = fs.mkdirSync(
+      `${this.dir}/${parentURLFolderName}/${pathFolderName}`,
+      {
+        recursive: true,
+      },
+    );
+
+    const parsedParentURL = parentURL.endsWith('/')
+      ? parentURL.slice(0, parentURL.length - 1)
+      : parentURL;
+
+    const parsedPath = path.startsWith('/') ? path : `/${path}`;
 
     fs.writeFileSync(
       `${pathDir}/metadata.json`,
       JSON.stringify({
         parentURL,
-        fullURL: `${parentURL}${path}`,
+        fullURL: `${parsedParentURL}${parsedPath}`,
         metadata: pathMetaData,
       }),
     );

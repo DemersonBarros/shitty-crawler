@@ -60,14 +60,60 @@ describe('addPath method', () => {
   });
 
   test('should add the path to the database', () => {
-    const result = db.addPath(
-      '/path/to/file.html',
-      { content: 'uwu' },
-      'https://www.example.com/',
-    );
+    const results = [
+      db.addPath(
+        'path/to/file.html',
+        { content: 'uwu' },
+        'https://www.example.com',
+      ),
+      db.addPath(
+        '/path/to/file.html',
+        { content: 'uwu' },
+        'https://www.example.com/',
+      ),
+      db.addPath(
+        '/path/to/file.html',
+        { content: 'uwu' },
+        'https://www.example.com',
+      ),
+      db.addPath(
+        'path/to/file.html',
+        { content: 'uwu' },
+        'https://www.example.com/',
+      ),
+    ];
 
-    expect(result).toBeUndefined();
-    expect(fs.mkdirSync).toHaveBeenCalled();
-    expect(fs.writeFileSync).toHaveBeenCalled();
+    for (let i = 0; i < 4; i += 1) {
+      const result = results[0];
+      expect(result).toBeUndefined();
+      expect(fs.mkdirSync).toHaveBeenNthCalledWith(
+        i + 1,
+        './data/wwwexamplecom/pathtofilehtml',
+        {
+          recursive: true,
+        },
+      );
+      if (i % 2 !== 0) {
+        expect(fs.writeFileSync).toHaveBeenNthCalledWith(
+          i + 1,
+          './data/wwwexamplecom/pathtofilehtml/metadata.json',
+          JSON.stringify({
+            parentURL: 'https://www.example.com/',
+            fullURL: 'https://www.example.com/path/to/file.html',
+            metadata: { content: 'uwu' },
+          }),
+        );
+      } else {
+        expect(fs.writeFileSync).toHaveBeenNthCalledWith(
+          i + 1,
+          './data/wwwexamplecom/pathtofilehtml/metadata.json',
+          JSON.stringify({
+            parentURL: 'https://www.example.com',
+            fullURL: 'https://www.example.com/path/to/file.html',
+            metadata: { content: 'uwu' },
+          }),
+        );
+      }
+    }
   });
 });
