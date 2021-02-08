@@ -3,6 +3,7 @@ const URLNotStoredError = require('./errors/database-errors/URLNotStoredError.js
 const PathNotStoredError = require('./errors/database-errors/PathNotStoredError.js');
 const getURLFolderName = require('./utils/getURLFolderName.js');
 const getPathFolderName = require('./utils/getPathFolderName.js');
+const isPath = require('./utils/isPath.js');
 
 class DataBase {
   constructor() {
@@ -102,6 +103,25 @@ class DataBase {
     );
 
     return pathContent;
+  }
+
+  includes(URL) {
+    if (typeof URL !== 'string') {
+      throw new TypeError(`${URL} is not a string`);
+    }
+
+    const URLFolderName = getURLFolderName(URL);
+    if (isPath(URL)) {
+      const pathsCollected = fs.readdirSync(`${this.dir}/${URLFolderName}`);
+      const { path } = URL.match(/.+?\/\/.+?\/(?<path>[^?]*)/).groups;
+      const pathFolderName = getPathFolderName(path);
+
+      return pathsCollected.includes(pathFolderName);
+    }
+
+    const urlsCollected = fs.readdirSync(this.dir);
+
+    return urlsCollected.includes(URLFolderName);
   }
 }
 

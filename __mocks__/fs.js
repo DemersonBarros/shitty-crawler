@@ -7,13 +7,18 @@ let mockDir = Object.create(null);
 function __setMockPath(newMockPath) {
   mockDir = Object.create(null);
   for (const newPath of newMockPath) {
-    const dir = path.dirname(newPath);
+    let oldPath = newPath;
+    do {
+      let dir = path.dirname(oldPath);
 
-    if (!mockDir[dir]) {
-      mockDir[dir] = [];
-    }
+      if (!mockDir[dir]) {
+        mockDir[dir] = [];
+      }
 
-    mockDir[dir].push(path.basename(newPath));
+      mockDir[dir].push(path.basename(oldPath));
+      oldPath = dir;
+      dir = path.dirname(dir);
+    } while (oldPath !== '.');
   }
 }
 
