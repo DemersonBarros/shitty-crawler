@@ -1,7 +1,6 @@
 /* eslint no-undef: off, no-underscore-dangle: off, implicit-arrow-linebreak: warn */
 const fs = require('fs');
 const DataBase = require('../../src/DataBase.js');
-const URLNotStoredError = require('../../src/errors/database-errors/URLNotStoredError.js');
 
 jest.mock('fs');
 const db = new DataBase();
