@@ -37,6 +37,8 @@ describe('getPath method', () => {
   });
 
   test('should throw a PathNotStoredError', () => {
+    fs.__setMockPath(['./data/wwwexamplecom']);
+
     expect(() => {
       db.getPath('/path/to/file.html', 'http://www.example.com');
     }).toThrow(PathNotStoredError);
