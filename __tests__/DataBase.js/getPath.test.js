@@ -2,6 +2,7 @@
 const fs = require('fs');
 const DataBase = require('../../src/DataBase.js');
 const PathNotStoredError = require('../../src/errors/database-errors/PathNotStoredError.js');
+const URLNotStoredError = require('../../src/errors/database-errors/URLNotStoredError.js');
 
 jest.mock('fs');
 const db = new DataBase();
@@ -39,6 +40,12 @@ describe('getPath method', () => {
     expect(() => {
       db.getPath('/path/to/file.html', 'http://www.example.com');
     }).toThrow(PathNotStoredError);
+  });
+
+  test('should throw a URLNotStoredError', () => {
+    expect(() => {
+      db.getPath('/path/to/file.html', 'http://www.example.com');
+    }).toThrow(URLNotStoredError);
   });
 
   test('should return the path metadata', () => {
