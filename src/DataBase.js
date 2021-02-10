@@ -98,7 +98,12 @@ class DataBase {
     }
 
     const parentURLFolderName = getURLFolderName(parentURL);
-    const pathsCollected = fs.readdirSync(`${this.dir}/${parentURLFolderName}`);
+    let pathsCollected;
+    try {
+      pathsCollected = fs.readdirSync(`${this.dir}/${parentURLFolderName}`);
+    } catch (error) {
+      throw new URLNotStoredError(`${parentURL} was not stored`);
+    }
     const pathFolderName = getPathFolderName(path);
 
     if (!pathsCollected.includes(pathFolderName)) {
