@@ -122,7 +122,12 @@ class DataBase {
 
     const URLFolderName = getURLFolderName(URL);
     if (isPath(URL)) {
-      const pathsCollected = fs.readdirSync(`${this.dir}/${URLFolderName}`);
+      let pathsCollected;
+      try {
+        pathsCollected = fs.readdirSync(`${this.dir}/${URLFolderName}`);
+      } catch (error) {
+        return false;
+      }
       const { path } = URL.match(/.+?\/\/.+?\/(?<path>[^?]*)/).groups;
       const pathFolderName = getPathFolderName(path);
 
