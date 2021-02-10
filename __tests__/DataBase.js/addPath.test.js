@@ -60,6 +60,8 @@ describe('addPath method', () => {
   });
 
   test('should add the path to the database', () => {
+    fs.__setMockPath(['./data/wwwexamplecom']);
+
     const results = [
       db.addPath(
         'path/to/file.html',
