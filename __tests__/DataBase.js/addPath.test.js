@@ -6,7 +6,7 @@ jest.mock('fs');
 const db = new DataBase();
 
 beforeEach(() => {
-  fs.__setMockPath([]);
+  fs.__setMockPath(['./data']);
 });
 
 describe('addPath method', () => {

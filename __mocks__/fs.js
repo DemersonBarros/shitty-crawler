@@ -7,6 +7,10 @@ let mockDir = Object.create(null);
 function __setMockPath(newMockPath) {
   mockDir = Object.create(null);
   for (const newPath of newMockPath) {
+    if (!path.basename(newPath).includes('.')) {
+      mockDir[newPath] = [];
+    }
+
     let oldPath = newPath;
     do {
       let dir = path.dirname(oldPath);
@@ -23,7 +27,12 @@ function __setMockPath(newMockPath) {
 }
 
 function readdirSync(directoryPath) {
-  return mockDir[directoryPath] || [];
+  if (!mockDir[directoryPath]) {
+    throw new Error(
+      `ENOENT: no such file or directory, scandir ${directoryPath}`,
+    );
+  }
+  return mockDir[directoryPath];
 }
 
 function mkdirSync(pathToDirectory, options = {}) {
