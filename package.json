@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "jest"
   },
   "author": "Demerson Barros de Jesus",
@@ -16,6 +17,7 @@
     "prettier": "2.2.1"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "is-valid-domain": "0.0.17"
   }
 }
