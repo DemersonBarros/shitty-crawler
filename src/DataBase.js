@@ -41,9 +41,15 @@ class DataBase {
       throw new TypeError(`${parentURL} is not a string`);
     }
 
-    const pathsCollected = fs.readdirSync(
-      `${this.dir}/${getURLFolderName(parentURL)}`,
-    );
+    let pathsCollected;
+    try {
+      pathsCollected = fs.readdirSync(
+        `${this.dir}/${getURLFolderName(parentURL)}`,
+      );
+    } catch (error) {
+      throw new URLNotStoredError(`${parentURL} was not stored.`);
+    }
+
     const pathFolderName = getPathFolderName(path);
 
     if (pathsCollected.includes(pathFolderName)) return;

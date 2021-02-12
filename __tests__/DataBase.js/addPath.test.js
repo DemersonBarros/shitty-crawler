@@ -1,6 +1,7 @@
 /* eslint no-undef: off, no-underscore-dangle: off */
 const fs = require('fs');
 const DataBase = require('../../src/DataBase.js');
+const URLNotStoredError = require('../../src/errors/database-errors/URLNotStoredError.js');
 
 jest.mock('fs');
 const db = new DataBase();
@@ -57,6 +58,15 @@ describe('addPath method', () => {
     expect(result).toBeUndefined();
     expect(fs.mkdirSync).not.toHaveBeenCalled();
     expect(fs.writeFileSync).not.toHaveBeenCalled();
+
+    fs.__setMockPath(['./data']);
+    expect(() => {
+      db.addPath(
+        '/path/to/file.html',
+        { content: 'uwu' },
+        'https://www.example.com',
+      );
+    }).toThrow(URLNotStoredError);
   });
 
   test('should add the path to the database', () => {
