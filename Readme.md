@@ -12,4 +12,4 @@ $ npm install
 $ npm start [URL0, ...URLn]
 ```
 
-I'll not be maintaining this project, in the future proprably I'll make some changes but it isn't guaranteed.
+I'll not be maintaining this project. In the future, proprably, I'll make some changes but it isn't guaranteed.
